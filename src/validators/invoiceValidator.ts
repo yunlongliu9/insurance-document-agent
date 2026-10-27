@@ -21,5 +21,27 @@ export type Invoice = z.infer<typeof invoiceValidator>;
 
 // 验证模型返回的数据
 export function validateInvoice(data: unknown): Invoice {
-  return invoiceValidator.parse(data);
+    const invoice = invoiceValidator.parse(data);
+
+    const prices = invoice.medications.map((m) => m.price);
+
+    if (
+    invoice.totalAmount !== null &&
+    prices.every((price) => price !== null)
+    ) {
+    const sumInCents = prices.reduce(
+        (sum, price) => sum + Math.round(price! * 100),
+        0
+    );
+
+    const totalInCents = Math.round(invoice.totalAmount * 100);
+
+    if (sumInCents !== totalInCents) {
+        throw new Error(
+        `Amount mismatch: medications=${sumInCents / 100}, total=${invoice.totalAmount}`
+        );
+    }
+    }
+
+    return invoice;
 }
