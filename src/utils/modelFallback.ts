@@ -2,7 +2,7 @@
 import { gemini } from "../config/gemini";
 import { withRetry } from "./retry";
 import type { GenerateContentParameters } from "@google/genai";
-
+import { withTimeout,TimeoutError } from "./timeout";
 const MODELS = [
   "gemini-3.8-flash",
   "gemini-3.6-flash",
@@ -18,22 +18,27 @@ export async function generateWithFallback(
 
 
       return await withRetry(() =>
-        gemini.models.generateContent({
+        withTimeout ((signal) => gemini.models.generateContent({
           ...params,
           model,
-        })
-      );
+          config: {
+                ...params.config,
+                abortSignal: signal,
+            },
+        }),
+        30000
+        )
+    );
+        
     } catch (error) {
       const status = (error as { status?: number }).status;
 
-      // 非临时错误直接抛出，不切换模型
-      if (![429, 500, 502, 503, 504].includes(status ?? 0)) {
-        throw error;
-      }
+     const isRecoverable = error instanceof TimeoutError ||
+        [429, 500, 502, 503, 504].includes(status ?? 0);
 
-      if (index === MODELS.length - 1) {
-        throw error;
-      }
+        if (!isRecoverable) {
+            throw error;
+        }
 
       console.warn(
         `Model ${model} unavailable. Switching to fallback model.`
