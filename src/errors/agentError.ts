@@ -3,8 +3,12 @@ export type AgentErrorCode =
   | "API_ERROR"
   | "TIMEOUT_ERROR"
   | "SCHEMA_ERROR"
-  | "BUSINESS_ERROR";
+  | "BUSINESS_ERROR"
+  | "JSON_PARSE_ERROR"
+  | "FILE_ERROR"
+  | "UNKNOWN_ERROR";
 
+  
 export class AgentError extends Error {
   constructor(
     public readonly code: AgentErrorCode,

@@ -1,13 +1,16 @@
 
-import { AgentError } from "../errors/agentError";
 import { classifyError } from "../errors/classifyError";
+import { AgentError } from "../errors/agentError";
 
-const error = new AgentError(
-  "BUSINESS_ERROR",
-  "Invoice amount mismatch"
-);
+const errors = [
+  new AgentError("BUSINESS_ERROR", "Amount mismatch"),
+  new SyntaxError("Invalid JSON"),
+  Object.assign(new Error("File not found"), { code: "ENOENT" }),
+  Object.assign(new Error("Service unavailable"), { status: 503 }),
+  new Error("Unexpected failure"),
+];
 
-const classified = classifyError(error);
-
-console.log(classified.code);
-console.log(classified.message);
+for (const error of errors) {
+  const classified = classifyError(error);
+  console.log(classified.code);
+}
