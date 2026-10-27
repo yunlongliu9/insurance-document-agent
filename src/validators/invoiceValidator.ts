@@ -1,6 +1,6 @@
 
 import { z } from "zod";
-
+import { AgentError } from "../errors/agentError";
 // 定义运行时数据结构
 export const invoiceValidator = z.object({
   documentType: z.string(),
@@ -21,8 +21,7 @@ export type Invoice = z.infer<typeof invoiceValidator>;
 
 // 验证模型返回的数据
 export function validateInvoice(data: unknown): Invoice {
-    const invoice = invoiceValidator.parse(data);
-
+    const invoice = invoiceValidator.parse(data)
     const prices = invoice.medications.map((m) => m.price);
 
     if (
@@ -37,9 +36,10 @@ export function validateInvoice(data: unknown): Invoice {
     const totalInCents = Math.round(invoice.totalAmount * 100);
 
     if (sumInCents !== totalInCents) {
-        throw new Error(
-        `Amount mismatch: medications=${sumInCents / 100}, total=${invoice.totalAmount}`
-        );
+        throw new AgentError(
+            "BUSINESS_ERROR",
+            `Amount mismatch: medications=${sumInCents / 100}, total=${invoice.totalAmount}`
+            );
     }
     }
 
