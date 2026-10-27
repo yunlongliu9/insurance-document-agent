@@ -1,8 +1,8 @@
 
-import { gemini } from "../config/gemini";
-import { withRetry } from "./retry";
+import { gemini } from "../config/gemini.js";
+import { withRetry } from "./retry.js";
 import type { GenerateContentParameters } from "@google/genai";
-import { withTimeout,TimeoutError } from "./timeout";
+import { withTimeout,TimeoutError } from "./timeout.js";
 const MODELS = [
   "gemini-3.8-flash",
   "gemini-3.6-flash",

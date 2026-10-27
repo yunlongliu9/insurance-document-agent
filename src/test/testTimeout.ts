@@ -1,4 +1,4 @@
-import { withTimeout, TimeoutError } from "../utils/timeout";
+import { withTimeout, TimeoutError } from "../utils/timeout.js";
 
 async function main() {
   try {

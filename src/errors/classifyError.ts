@@ -1,7 +1,7 @@
 
 import { ZodError } from "zod";
-import { AgentError } from "./agentError";
-import { TimeoutError } from "../utils/timeout";
+import { AgentError } from "./agentError.js";
+import { TimeoutError } from "../utils/timeout.js";
 
 export function classifyError(error: unknown): AgentError {
   if (error instanceof AgentError) {

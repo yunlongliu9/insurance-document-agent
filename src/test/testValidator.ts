@@ -1,6 +1,6 @@
 
 import { readFile } from "node:fs/promises";
-import { validateInvoice } from "../validators/invoiceValidator";
+import { validateInvoice } from "../validators/invoiceValidator.js";
 
 async function main() {
   const content = await readFile(

@@ -1,9 +1,9 @@
 // doc understanding logic
-import { generateWithFallback } from "../utils/modelFallback";
+import { generateWithFallback } from "../utils/modelFallback.js";
 import { invoiceSchema } from "../schemas/invoiceSchema.js";
 import { loadDocument } from "../utils/file.js";
 import { invoiceValidator } from "../validators/invoiceValidator.js";
-import { validateInvoice } from "../validators/invoiceValidator";
+import { validateInvoice } from "../validators/invoiceValidator.js";
 export async function extractDocument(filePath: string) {
   // 1. 读取文件并转换为 Gemini 支持的格式
   const file = await loadDocument(filePath);

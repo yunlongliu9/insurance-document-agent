@@ -1,6 +1,6 @@
 
-import { classifyError } from "../errors/classifyError";
-import { AgentError } from "../errors/agentError";
+import { classifyError } from "../errors/classifyError.js";
+import { AgentError } from "../errors/agentError.js";
 
 const errors = [
   new AgentError("BUSINESS_ERROR", "Amount mismatch"),

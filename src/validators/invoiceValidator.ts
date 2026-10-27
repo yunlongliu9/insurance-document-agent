@@ -1,6 +1,6 @@
 
 import { z } from "zod";
-import { AgentError } from "../errors/agentError";
+import { AgentError } from "../errors/agentError.js";
 // 定义运行时数据结构
 export const invoiceValidator = z.object({
   documentType: z.string(),
